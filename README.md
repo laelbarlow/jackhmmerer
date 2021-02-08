@@ -1,8 +1,60 @@
 # JackHMMerer
 
-Snakemake workflow for searching iteratively for similar sequences in amino
-acid sequence FASTA files using the jackhmmer program from the [HMMer3 software
-package](http://hmmer.org/).
+This is a snakemake workflow for searching iteratively for similar sequences in
+amino acid sequence FASTA files using the jackhmmer program from the [HMMer3
+software package](http://hmmer.org/).
+
+## Overview
+
+<p align="center">
+<img src="images/workflow_diagram.png" width="800">
+</p>
+
+
+## Installation 
+
+- Clone the code repository from github to your computer by running the
+  following shell command in your terminal:
+  ```
+  git clone https://github.com/laelbarlow/jackhmmerer.git
+  ```
+
+- Change directories into the cloned repository:
+  ```
+  cd jackhmmerer
+  ```
+
+- Install jackhmmerer (set up snakemake environment and profile for submitting
+  jobs via your cluster's job scheduler), and run a test job.
+  ```
+  make install
+  make dry_run
+  ```
+
+## Procedure
+
+- Put amino acid sequence FASTA files with sequences to be searched in the
+  `resources/FASTA_Databases` directory.
+
+- Put amino acid sequence FASTA files with sequences to be used as jackhmmer
+  queries in the `resources/FASTA_Queries` directory. If any of these sequences
+  contain more than one domain, they should be trimmed to include only the
+  domain of interest.
+
+- If necessary, customize the list of E-value thresholds (for the best domain
+  in a sequence) to use for jackhmmer runs (the workflow will run the jackhmmer
+  separately for each of the listed E-value thresholds).
+  ```
+  vim resources/evalue_thresholds.csv
+  ```
+
+- Run the workflow.
+  ```
+  make run
+  ```
+
+- View results. The alignments in this directory may be of particular interest:
+  `results/convert_to_fasta`.
 
 
 ## License
