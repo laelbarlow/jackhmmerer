@@ -1,0 +1,10 @@
+results/*
+resources/evalue_thresholds.csv
+resources/FASTA_Databases/*.faa
+resources/FASTA_Queries/*.faa
+.DS_Store
+.snakemake
+nohup.out
+pid_nohup.txt
+resources/.DS_Store
+

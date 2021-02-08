@@ -1,0 +1,6 @@
+name: convert_profile_format
+channels:
+    - anaconda
+dependencies:
+    - python=3.8
+    - biopython=1.78

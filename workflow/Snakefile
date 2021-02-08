@@ -1,0 +1,176 @@
+"""
+SnakeMake workflow definition file.
+
+"""
+import os
+import shutil
+import glob
+from snakemake.io import expand, glob_wildcards
+from snakemake.utils import Paramspace
+import pandas as pd
+
+
+# Define list of input files.
+db_fasta_files = glob.glob('resources/FASTA_Databases/*.faa')
+assert len(db_fasta_files) > 0, """No FASTA files found in the
+resources/FASTA_Databases directory (files must have the extension .faa)."""
+query_fasta_files = glob.glob('resources/FASTA_Queries/*.faa')
+assert len(query_fasta_files) > 0, """No FASTA files found in the
+resources/FASTA_Queries directory (files must have the extension .faa)."""
+query_names = [os.path.basename(x).rsplit('.', 1)[0] for x in query_fasta_files]
+
+
+# Declare a dataframe to be a paramspace for E-value thresholds used when
+# running jackhmmer.
+paramspace1_file = "resources/evalue_thresholds.csv"
+paramspace1 = \
+Paramspace(pd.read_csv(paramspace1_file))
+
+
+# Define which rules are to be run without submitting to a cluster via a job
+# scheduler.
+localrules: final_results, help
+
+
+# Define workflow rules.
+
+rule final_results:
+    """
+    Get output files from full analysis.
+    """
+    input:
+        #'results/concat_dbs/database.ssi',
+        expand('results/jackhmmer/{params}/tab_outputs/{queryfasta}.txt', \
+            queryfasta = query_names, params=paramspace1.instance_patterns),
+        expand('results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa', \
+            queryfasta = query_names, params=paramspace1.instance_patterns),
+        'results/workflow_diagram.pdf'
+
+rule help:
+    """
+    Print list of all targets with help.
+    """
+    run:
+        for rule in workflow.rules:
+            print(rule.name)
+            print(rule.docstring)
+
+
+rule concat_dbs:
+    """
+    Concatenate database files to make one big FASTA with all the sequences to
+    be searched.
+    """
+    input:
+        db_files = db_fasta_files
+
+    output:
+        db_file = 'results/concat_dbs/database.faa'
+
+    run:
+        with open(output.db_file, 'w') as o:
+            for f in input.db_files:
+                with open(f) as infh:
+                    for i in infh:
+                        o.write(i)
+
+
+rule jackhmmer:
+    """
+    """
+    input:
+        db_file = 'results/concat_dbs/database.faa',
+        query_file = f'resources/FASTA_Queries/{"{queryfasta}"}.faa'
+
+    output:
+        result_file = f'results/jackhmmer/{paramspace1.wildcard_pattern}/text_outputs/{"{queryfasta}"}.txt',
+        tab_result_file = f'results/jackhmmer/{paramspace1.wildcard_pattern}/tab_outputs/{"{queryfasta}"}.txt',
+        profile = f'results/jackhmmer/{paramspace1.wildcard_pattern}/profiles/{"{queryfasta}"}_profile.stockholm'
+
+    params:
+        max_iterations = 10,
+        max_seq_evalue = 0.05,
+        max_domain_evalue = paramspace1.instance
+
+    conda:
+        'envs/jackhmmer.yaml'
+
+    script:
+        'scripts/jackhmmer.py'
+
+
+rule convert_to_fasta:
+    """
+    Convert the jackhmmer output profile/alignment from stockholm to FASTA
+    format.
+    """
+    input:
+        alignment = 'results/jackhmmer/{params}/profiles/{queryfasta}_profile.stockholm'
+
+    output:
+        aligned = \
+        'results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa',
+        unaligned = \
+        'results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs.faa'
+
+    conda:
+        'envs/convert_to_fasta.yaml'
+
+    script:
+        'scripts/convert_to_fasta.py'
+
+
+#rule index_database:
+#    """
+#    Use the HMMer3 package utility esl-sfetch to construct an index for fast retrieval
+#    of sequences from the concatenated database FASTA file.
+#    """
+#    input:
+#        db_file = 'results/concat_dbs/database.faa'
+#
+#    output:
+#        index_file = 'results/concat_dbs/database.ssi'
+#
+#    conda:
+#        'envs/jackhmmer.yaml'
+#
+#    shell:
+#        """
+#        esl-sfetch --index {input.index_file}
+#        """
+#
+#
+#rule retrieve_hit_seqs:
+#    """
+#    Parse jackhmmer output files and retrieve sequences for listed positive
+#    hits from the searched database FASTA file.
+#    """
+#    input:
+#        result_file = 'results/jackhmmer/{queryfasta}.txt',
+#        database_file = 'results/concat_dbs/database.faa',
+#        database_index_file = 'results/concat_dbs/database.ssi'
+#
+#    output:
+#        fasta = 
+#
+#    conda:
+#
+#    script:
+        
+
+rule plot_workflow:
+    """
+    Plot the snakemake workflow defined in the Snakefile file.
+    """
+    output:
+        pdf = 'results/workflow_diagram.pdf',
+        png = 'images/workflow_diagram.png'
+    shell: 
+        #'snakemake --cores 1 -p --rulegraph | dot -Tpdf > {output}'
+        #snakemake --cores 1 -p --filegraph | dot -Tpdf > {output.pdf} && \
+        #snakemake --cores 1 -p --filegraph | dot -Tpng > {output.png}
+        """
+        snakemake --cores 1 -p --rulegraph | dot -Tpdf > {output.pdf} && \
+        snakemake --cores 1 -p --rulegraph | dot -Tpng > {output.png}
+        """
+

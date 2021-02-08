@@ -1,0 +1,13 @@
+__default__:
+  account: account-name-here
+  mail-user: name@email.com
+  mem-per-cpu: 16000M
+  ntasks: 1
+  time: 5
+
+
+cdhit_subsets:
+  mem-per-cpu: 16000M
+  ntasks: 1
+  time: 10
+
