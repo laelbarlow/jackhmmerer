@@ -9,7 +9,7 @@ SECONDS=0
 set -e
 
 # Copy template E-value threshold list CSV file.
-cp example_evalue_thresholds.csv evalue_thresholds.csv
+cp resources/example_evalue_thresholds.csv resources/evalue_thresholds.csv
 
 # Detect job scheduler.
 source scripts/determine_snakemake_profile.sh
