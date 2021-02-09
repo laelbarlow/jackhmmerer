@@ -180,7 +180,7 @@ rule plot_workflow:
     """
     output:
         pdf = 'results/workflow_diagram.pdf',
-        png = 'images/workflow_diagram.png'
+        png = 'results/workflow_diagram.png'
     shell: 
         #'snakemake --cores 1 -p --rulegraph | dot -Tpdf > {output}'
         #snakemake --cores 1 -p --filegraph | dot -Tpdf > {output.pdf} && \
