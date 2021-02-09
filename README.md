@@ -7,7 +7,7 @@ software package](http://hmmer.org/).
 ## Overview
 
 <p align="center">
-<img src="images/workflow_diagram.png" width="800">
+<img src="images/workflow_diagram.png" width="400">
 </p>
 
 
