@@ -44,7 +44,7 @@ rule final_results:
             queryfasta = query_names, params=paramspace1.instance_patterns),
         expand('results/convert_profiles_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa', \
             queryfasta = query_names, params=paramspace1.instance_patterns),
-        expand('results/retrieve_hit_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa', \
+        expand('results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa', \
             queryfasta = query_names, params=paramspace1.instance_patterns),
         'results/concat_dbs/database.faa.ssi',
         'results/workflow_diagram.pdf'
@@ -164,7 +164,7 @@ rule index_database:
         """
 
 
-rule retrieve_hit_seqs:
+rule retrieve_full_length_seqs:
     """
     Parse jackhmmer output files and retrieve sequences for listed positive
     hits from the searched database FASTA file.
@@ -177,13 +177,13 @@ rule retrieve_hit_seqs:
 
     output:
         fasta = \
-        'results/retrieve_hit_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa'
+        'results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa'
 
     conda:
         'envs/jackhmmer.yaml'
 
     script:
-        'scripts/retrieve_hit_seqs.py'
+        'scripts/retrieve_full_length_seqs.py'
 
 
 rule plot_workflow:
