@@ -89,6 +89,7 @@ rule concat_dbs:
 
 rule jackhmmer:
     """
+    Run the jackhmmer program from the HMMer3 package.
     """
     input:
         db_file = 'results/concat_dbs/database.faa',
@@ -97,7 +98,10 @@ rule jackhmmer:
     output:
         result_file = f'results/jackhmmer/{paramspace1.wildcard_pattern}/text_outputs/{"{queryfasta}"}.txt',
         tab_result_file = f'results/jackhmmer/{paramspace1.wildcard_pattern}/tab_outputs/{"{queryfasta}"}.txt',
-        profile = f'results/jackhmmer/{paramspace1.wildcard_pattern}/profiles/{"{queryfasta}"}_profile.stockholm'
+        profile = \
+        f'results/jackhmmer/{paramspace1.wildcard_pattern}/profiles/{"{queryfasta}"}_profile.stockholm',
+        int_profile_dir = \
+        directory(f'results/jackhmmer/{paramspace1.wildcard_pattern}/profiles/{"{queryfasta}"}_profile_intermediates')
 
     params:
         max_iterations = 10,
@@ -117,13 +121,21 @@ rule convert_to_fasta:
     format.
     """
     input:
-        alignment = 'results/jackhmmer/{params}/profiles/{queryfasta}_profile.stockholm'
+        alignment = \
+        'results/jackhmmer/{params}/profiles/{queryfasta}_profile.stockholm',
+        int_ali_dir = \
+        'results/jackhmmer/{params}/profiles/{queryfasta}_profile_intermediates'
 
     output:
         aligned = \
         'results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa',
+        int_aligned_dir = \
+        directory('results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile_intermediates'),
         unaligned = \
-        'results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs.faa'
+        'results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs.faa',
+        int_unaligned_dir = \
+        directory('results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs_intermediates')
+
 
     conda:
         'envs/convert_to_fasta.yaml'
@@ -159,7 +171,7 @@ rule retrieve_hit_seqs:
     """
     input:
         result_file = \
-        'results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs.faa',
+        'results/jackhmmer/{params}/profiles/{queryfasta}_profile.stockholm',
         database_file = 'results/concat_dbs/database.faa',
         database_index_file = 'results/concat_dbs/database.faa.ssi'
 

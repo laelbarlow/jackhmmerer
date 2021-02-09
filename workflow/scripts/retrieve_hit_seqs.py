@@ -2,6 +2,7 @@
 """Script for fetching full-length jackhmmer hit sequences from a very large FASTA file.
 """
 
+import os
 import subprocess
 from Bio import SeqIO
 
@@ -10,10 +11,10 @@ from Bio import SeqIO
 ids_already_used = []
 with open(snakemake.input.result_file) as infh,\
 open(snakemake.output.fasta, 'a') as o:
-    for seq in SeqIO.parse(infh, 'fasta'):
+    for seq in SeqIO.parse(infh, 'stockholm'):
         # Extract original id from jackhmmer output ID (which indicates the
         # subsequence coordinates).
-        original_id = seq.id.rsplit('/', 1)[0]
+        original_id = seq.id.rsplit('/', 1)[0] 
 
         # Don't retrieve the same full-length sequence more than once (even
         # though there may be more than one domain from the same sequence in
