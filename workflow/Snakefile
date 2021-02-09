@@ -44,6 +44,9 @@ rule final_results:
             queryfasta = query_names, params=paramspace1.instance_patterns),
         expand('results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa', \
             queryfasta = query_names, params=paramspace1.instance_patterns),
+        expand('results/retrieve_hit_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa', \
+            queryfasta = query_names, params=paramspace1.instance_patterns),
+        'results/concat_dbs/database.faa.ssi',
         'results/workflow_diagram.pdf'
 
 rule help:
@@ -72,7 +75,15 @@ rule concat_dbs:
             for f in input.db_files:
                 with open(f) as infh:
                     for i in infh:
-                        o.write(i)
+                        # Format EukProt sequence headers differently.
+                        if i.startswith('>EP'):
+                            o.write(i)
+                        # By default, insert filenames in headers.
+                        elif i.startswith('>'):
+                            o.write('>' + os.path.basename(f).rsplit('.', \
+                            1)[0].replace(' ', '_') + '__' + i[1:])
+                        else:
+                            o.write(i)
 
 
 rule jackhmmer:
@@ -120,43 +131,47 @@ rule convert_to_fasta:
         'scripts/convert_to_fasta.py'
 
 
-#rule index_database:
-#    """
-#    Use the HMMer3 package utility esl-sfetch to construct an index for fast retrieval
-#    of sequences from the concatenated database FASTA file.
-#    """
-#    input:
-#        db_file = 'results/concat_dbs/database.faa'
-#
-#    output:
-#        index_file = 'results/concat_dbs/database.ssi'
-#
-#    conda:
-#        'envs/jackhmmer.yaml'
-#
-#    shell:
-#        """
-#        esl-sfetch --index {input.index_file}
-#        """
-#
-#
-#rule retrieve_hit_seqs:
-#    """
-#    Parse jackhmmer output files and retrieve sequences for listed positive
-#    hits from the searched database FASTA file.
-#    """
-#    input:
-#        result_file = 'results/jackhmmer/{queryfasta}.txt',
-#        database_file = 'results/concat_dbs/database.faa',
-#        database_index_file = 'results/concat_dbs/database.ssi'
-#
-#    output:
-#        fasta = 
-#
-#    conda:
-#
-#    script:
-        
+rule index_database:
+    """
+    Use the HMMer3 package utility esl-sfetch to construct an index for fast retrieval
+    of sequences from the concatenated database FASTA file.
+    """
+    input:
+        db_file = 'results/concat_dbs/database.faa'
+
+    output:
+        index_file = 'results/concat_dbs/database.faa.ssi'
+
+    conda:
+        'envs/jackhmmer.yaml'
+
+    shell:
+        """
+        esl-sfetch --index {input.db_file}
+        """
+
+
+rule retrieve_hit_seqs:
+    """
+    Parse jackhmmer output files and retrieve sequences for listed positive
+    hits from the searched database FASTA file.
+    """
+    input:
+        result_file = \
+        'results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs.faa',
+        database_file = 'results/concat_dbs/database.faa',
+        database_index_file = 'results/concat_dbs/database.faa.ssi'
+
+    output:
+        fasta = \
+        'results/retrieve_hit_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa'
+
+    conda:
+        'envs/jackhmmer.yaml'
+
+    script:
+        'scripts/retrieve_hit_seqs.py'
+
 
 rule plot_workflow:
     """

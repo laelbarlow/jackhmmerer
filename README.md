@@ -54,7 +54,9 @@ software package](http://hmmer.org/).
   ```
 
 - View results. The alignments in this directory may be of particular interest:
-  `results/convert_to_fasta`.
+  `results/convert_to_fasta`. **Important:** The output FASTA sequence files do
+  not contain full-length sequences, they are only the subsequences that
+  matched the query sequence.
 
 
 ## License
