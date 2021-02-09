@@ -1,4 +1,4 @@
-name: convert_profile_format
+name: convert_profiles_to_fasta
 channels:
     - anaconda
 dependencies:

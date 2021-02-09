@@ -42,7 +42,7 @@ rule final_results:
         #'results/concat_dbs/database.ssi',
         expand('results/jackhmmer/{params}/tab_outputs/{queryfasta}.txt', \
             queryfasta = query_names, params=paramspace1.instance_patterns),
-        expand('results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa', \
+        expand('results/convert_profiles_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa', \
             queryfasta = query_names, params=paramspace1.instance_patterns),
         expand('results/retrieve_hit_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa', \
             queryfasta = query_names, params=paramspace1.instance_patterns),
@@ -115,7 +115,7 @@ rule jackhmmer:
         'scripts/jackhmmer.py'
 
 
-rule convert_to_fasta:
+rule convert_profiles_to_fasta:
     """
     Convert the jackhmmer output profile/alignment from stockholm to FASTA
     format.
@@ -128,20 +128,20 @@ rule convert_to_fasta:
 
     output:
         aligned = \
-        'results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa',
+        'results/convert_profiles_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile.afaa',
         int_aligned_dir = \
-        directory('results/convert_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile_intermediates'),
+        directory('results/convert_profiles_to_fasta/{params}/aligned/{queryfasta}_jackhmmer_profile_intermediates'),
         unaligned = \
-        'results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs.faa',
+        'results/convert_profiles_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs.faa',
         int_unaligned_dir = \
-        directory('results/convert_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs_intermediates')
+        directory('results/convert_profiles_to_fasta/{params}/unaligned/{queryfasta}_jackhmmer_profile_seqs_intermediates')
 
 
     conda:
-        'envs/convert_to_fasta.yaml'
+        'envs/convert_profiles_to_fasta.yaml'
 
     script:
-        'scripts/convert_to_fasta.py'
+        'scripts/convert_profiles_to_fasta.py'
 
 
 rule index_database:
