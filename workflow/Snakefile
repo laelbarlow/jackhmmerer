@@ -77,11 +77,12 @@ rule concat_dbs:
                     for i in infh:
                         # Format EukProt sequence headers differently.
                         if i.startswith('>EP'):
-                            o.write(i)
+                            o.write(i.split(' ')[0] + '\n')
                         # By default, insert filenames in headers.
                         elif i.startswith('>'):
                             o.write('>' + os.path.basename(f).rsplit('.', \
-                            1)[0].replace(' ', '_') + '__' + i[1:])
+                            1)[0].replace(' ', '_') + '__' + i[1:].split(' ')[0] + \
+                            '\n')
                         else:
                             o.write(i)
 
