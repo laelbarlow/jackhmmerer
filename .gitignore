@@ -7,4 +7,5 @@ resources/FASTA_Queries/*.faa
 nohup.out
 pid_nohup.txt
 resources/.DS_Store
+logs
 

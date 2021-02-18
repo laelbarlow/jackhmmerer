@@ -46,6 +46,8 @@ rule final_results:
             queryfasta = query_names, params=paramspace1.instance_patterns),
         expand('results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa', \
             queryfasta = query_names, params=paramspace1.instance_patterns),
+        expand('results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_top_hit_seqs.faa', \
+            queryfasta = query_names, params=paramspace1.instance_patterns),
         'results/concat_dbs/database.faa.ssi',
         'results/workflow_diagram.pdf'
 
@@ -177,7 +179,9 @@ rule retrieve_full_length_seqs:
 
     output:
         fasta = \
-        'results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa'
+        'results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa',
+        top_hit_fasta = \
+        'results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_top_hit_seqs.faa',
 
     conda:
         'envs/jackhmmer.yaml'
