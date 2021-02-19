@@ -5,6 +5,13 @@
 import os
 import subprocess
 from Bio import SeqIO
+from plot_num_hits_retrieved import get_genome_ids_by_taxon
+
+
+# Parse CSV file with genome IDs grouped by taxonomic groups of interest.
+genome_ids_by_taxon = \
+get_genome_ids_by_taxon(snakemake.input.genome_id_taxon_csv)
+
 
 # Generate a list of sequence IDs for positive hits (hits included in the final
 # jackhmmer profile).
@@ -51,4 +58,26 @@ open(snakemake.output.top_hit_fasta, 'a') as o2:
 
                 # Add genome ID to the list of those already used.
                 genome_ids_already_used.append(genome_id)
+
+
+# Write taxon-specific full-length top-hit FASTA files.
+for taxon in genome_ids_by_taxon.keys():
+    # Define taxon-specific output file path.
+    taxon_out_fasta = snakemake.output.top_hit_fasta.rsplit('.', 1)[0] \
+            + '__' + taxon + '.faa'
+    # Parse inclusive output FASTA, and write taxon-specific FASTA.
+    with open(snakemake.output.top_hit_fasta) as infh,\
+          open(taxon_out_fasta, 'w') as o:
+        taxon_specific_seqs = []
+        for seq in SeqIO.parse(infh, 'fasta'):
+            # Extract genome ID from sequence ID.
+            genome_id = seq.id.split('_')[0]
+
+            if genome_id in genome_ids_by_taxon[taxon]:
+                taxon_specific_seqs.append(seq)
+
+        SeqIO.write(taxon_specific_seqs, o, 'fasta')
+
+
+
 
