@@ -47,7 +47,7 @@ def generate_plot(labels,
     
     # Adjust layout.
     fig.tight_layout()
-    
+
     # Write plot to PNG file.
     plt.savefig(output_path)
 
@@ -62,6 +62,12 @@ def autolabel(rects, ax):
                     xytext=(0, 3),  # 3 points vertical offset
                     textcoords="offset points",
                     ha='center', va='bottom')
+
+
+
+# Make output directory.
+if not os.path.isdir(snakemake.output.plot_dir):
+    os.mkdir(snakemake.output.plot_dir)
 
 
 # Find info to plot.
