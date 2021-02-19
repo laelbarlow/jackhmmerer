@@ -25,7 +25,7 @@ def generate_plot(labels,
     
     label_locations = np.arange(len(labels))  # the label locations
     #width = 0.35  # the width of the bars
-    width = 0.25  # the width of the bars
+    width = 0.15  # the width of the bars
     
     fig, ax = plt.subplots()
     clusters = []
