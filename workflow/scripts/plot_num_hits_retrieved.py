@@ -109,7 +109,7 @@ for query_name in fasta_files_by_query.keys():
     evalue_strings = []
     for f in files:
         # Add E-value string to list.
-        evalue_strings.append(os.path.basename(os.path.dirname(x)).rsplit('_',
+        evalue_strings.append(os.path.basename(os.path.dirname(f)).rsplit('_',
                 5)[0].split('~')[1])
 
         # Get list of genome IDs from FASTA file contents.
