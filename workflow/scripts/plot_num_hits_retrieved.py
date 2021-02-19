@@ -102,7 +102,7 @@ for query_name in fasta_files_by_query.keys():
     files = sorted(fasta_files_by_query[query_name],
             key=lambda x: \
             float(os.path.basename(os.path.dirname(x)).rsplit('_',
-                5)[0].split('~')[1])
+                5)[0].split('~')[1]))
 
     # Generate a list of genome ID counts for the files.
     genome_counts_by_evalue = []
