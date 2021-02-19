@@ -127,9 +127,10 @@ for query_name in fasta_files_by_query.keys():
             for genome_id in genome_ids:
                 if genome_id in genome_ids_by_taxon[taxon]:
                    count += 1 
+            counts_by_taxon.append(count)
 
         # Add genome count list to list of lists.
-        genome_counts_by_evalue.append(counts)
+        genome_counts_by_evalue.append(counts_by_taxon)
 
     # Turn the genome_counts_by_taxon list of lists into a list of lists with
     # one list for each taxon instead of a list for each E-value/file.
