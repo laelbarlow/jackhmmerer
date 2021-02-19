@@ -23,14 +23,16 @@ def generate_plot(labels,
     """Take info to plot, and generate a clustered bar chart with matplotlib.
     """
     
-    x = np.arange(len(labels))  # the label locations
+    label_locations = np.arange(len(labels))  # the label locations
     width = 0.35  # the width of the bars
     
     fig, ax = plt.subplots()
     clusters = []
+    tnum = 0
     for taxon, genome_counts in zip(taxa, genome_counts_by_taxon):
-       x = ax.bar(x - width/2, genome_counts, width, label=taxon)
-       clusters.append(x)
+        tnum += 1
+        x = ax.bar(label_locations - ((width/3)*(len(taxa) - tnum)), genome_counts, width, label=taxon)
+        clusters.append(x)
     
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Genome count')
