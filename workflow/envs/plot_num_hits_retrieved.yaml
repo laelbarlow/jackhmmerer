@@ -1,0 +1,9 @@
+name: plot_num_hits_retrieved
+channels:
+    - anaconda
+    - conda-forge
+dependencies:
+    - python=3.8
+    - numpy
+    - biopython=1.78
+    - matplotlib
