@@ -6,4 +6,4 @@ dependencies:
     - python=3.8
     - numpy
     - biopython=1.78
-    - matplotlib
+    - matplotlib=3.3.4
