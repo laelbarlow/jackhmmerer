@@ -70,7 +70,7 @@ with open(snakemake.input.genome_id_taxon_csv) as infh:
     for i in infh:
         if not i.startswith('Taxon') and not i.startswith('\n'):
             si = i.strip().split(',')
-            if genome_ids_by_taxon[si[0]] is None:
+            if si[0] not in genome_ids_by_taxon.keys():
                 genome_ids_by_taxon[si[0]] = []
             elif not si[1] in genome_ids_by_taxon[si[0]]:
                 genome_ids_by_taxon[si[0]] = genome_ids_by_taxon[si[0]] + [si[1]]
@@ -85,7 +85,7 @@ for f in snakemake.input.top_hit_fasta:
     query_name = os.path.basename(f).rsplit('_', 5)[0]
 
     # Initiate list when necessary.
-    if fasta_files_by_query[query_name] is None:
+    if query_name not in fasta_files_by_query.keys():
         fasta_files_by_query[query_name] = []
 
     # Add to dict.
