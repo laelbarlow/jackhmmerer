@@ -37,7 +37,7 @@ def generate_plot(labels,
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Genome count')
     ax.set_title('Genome counts by taxonomic group')
-    ax.set_xticks(x)
+    ax.set_xticks(label_locations)
     ax.set_xticklabels(labels)
     ax.legend()
     
