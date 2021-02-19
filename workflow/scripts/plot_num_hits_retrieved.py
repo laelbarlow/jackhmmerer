@@ -39,7 +39,7 @@ def generate_plot(labels,
     ax.set_ylabel('Genome count')
     ax.set_title('Genome counts by taxonomic group')
     ax.set_xticks(label_locations)
-    ax.set_xticklabels(labels)
+    ax.set_xticklabels(labels, rotation = 45)
     ax.legend()
     
     # Add labels to bars.
