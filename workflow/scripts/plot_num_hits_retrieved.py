@@ -24,14 +24,15 @@ def generate_plot(labels,
     """
     
     label_locations = np.arange(len(labels))  # the label locations
-    width = 0.35  # the width of the bars
+    #width = 0.35  # the width of the bars
+    width = 0.25  # the width of the bars
     
     fig, ax = plt.subplots()
     clusters = []
     tnum = 0
     for taxon, genome_counts in zip(taxa, genome_counts_by_taxon):
         tnum += 1
-        x = ax.bar(label_locations - ((width/3)*(len(taxa) - tnum)), genome_counts, width, label=taxon)
+        x = ax.bar(label_locations - ((width/len(taxa))*2*(len(taxa) - tnum)), genome_counts, width, label=taxon)
         clusters.append(x)
     
     # Add some text for labels, title and custom x-axis tick labels, etc.
