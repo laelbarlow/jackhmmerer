@@ -43,7 +43,7 @@ def generate_plot(labels,
     
     # Add labels to bars.
     for cluster in clusters:
-        autolabel(cluster)
+        autolabel(cluster, ax)
     
     # Adjust layout.
     fig.tight_layout()
@@ -52,7 +52,7 @@ def generate_plot(labels,
     plt.savefig(output_path)
 
 
-def autolabel(rects):
+def autolabel(rects, ax):
     """Attach a text label above each bar in *rects*, displaying its height.
     """
     for rect in rects:
