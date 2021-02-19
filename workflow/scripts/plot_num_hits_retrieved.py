@@ -133,9 +133,9 @@ for query_name in fasta_files_by_query.keys():
 
     # Turn the genome_counts_by_taxon list of lists into a list of lists with
     # one list for each taxon instead of a list for each E-value/file.
-    2d_array = np.array(genome_counts_by_evalue)
+    array = np.array(genome_counts_by_evalue)
     genome_counts_by_taxon = []
-    for column in 2d_array.T:
+    for column in array.T:
         genome_counts_by_taxon.append(column)
 
     # Call function to plot info about searches with this query.
