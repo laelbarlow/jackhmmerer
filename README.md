@@ -36,6 +36,11 @@ software package](http://hmmer.org/).
 - Put amino acid sequence FASTA files with sequences to be searched in the
   `resources/FASTA_Databases` directory.
 
+- Assign each FASTA file to a taxonomic group (*e.g.*, Eukaryotes, Archaea, or
+  Bacteria) in a file `resources/genome_ids_by_taxon.csv`, wherein the first
+  column is the taxonomic group name and the second column is a genome
+  identifier (*e.g.*, a EukProt ID).
+
 - Put amino acid sequence FASTA files with sequences to be used as jackhmmer
   queries in the `resources/FASTA_Queries` directory. If any of these sequences
   contain more than one domain, they should be trimmed to include only the

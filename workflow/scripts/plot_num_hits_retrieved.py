@@ -29,7 +29,7 @@ def generate_plot(labels,
     fig, ax = plt.subplots()
     clusters = []
     for taxon, genome_counts in zip(taxa, genome_counts_by_taxon):
-       x = ax.bar(x - width/3, genome_counts, width, label=taxon
+       x = ax.bar(x - width/3, genome_counts, width, label=taxon)
        clusters.append(x)
     
     # Add some text for labels, title and custom x-axis tick labels, etc.
