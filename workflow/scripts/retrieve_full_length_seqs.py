@@ -21,6 +21,7 @@ def insert_query_name_from_filename(fasta):
     # Iterate through sequences and make a list of modified records.
     new_seqs = []
     for seq in SeqIO.parse(fasta, 'fasta'):
+        assert not seq.id.endswith('__' + query_name)
         seq.id = seq.id + '__' + query_name
         new_seqs.append(seq)
 
@@ -107,11 +108,6 @@ for taxon in genome_ids_by_taxon.keys():
                 taxon_specific_seqs.append(seq)
 
         SeqIO.write(taxon_specific_seqs, o, 'fasta')
-
-    # Insert query names in FASTA headers.
-    insert_query_name_from_filename(taxon_out_fasta)
-
-
 
 
 
