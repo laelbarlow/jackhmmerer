@@ -29,7 +29,7 @@ def insert_query_name_from_filename(fasta):
         SeqIO.write(new_seqs, o, 'fasta')
 
     # Overwrite original file with temp file.
-    os.move(fasta_temp, fasta)
+    os.rename(fasta_temp, fasta)
 
 
 
