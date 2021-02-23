@@ -8,6 +8,31 @@ from Bio import SeqIO
 from get_genome_ids_by_taxon import get_genome_ids_by_taxon
 
 
+def insert_query_name_from_filename(fasta):
+    """Append query name from file name to sequence IDs in a given fasta
+    file.
+    """
+    # Extract query name from input FASTA filename.
+    query_name = os.path.basename(fasta).split('_')[0]
+
+    # Define temporary file path.
+    fasta_temp = fasta + '_TEMP'
+
+    # Iterate through sequences and make a list of modified records.
+    newseqs = []
+    for seq in SeqIO.parse(fasta, 'fasta'):
+        seq.id = seq.id + '__' + query_name
+        newseqs.append(seq)
+
+    # Write seq records with new IDs to temp file.
+    with open(fasta_temp, 'w') as o:
+        SeqIO.write(new_seqs, o, 'fasta')
+
+    # Overwrite original file with temp file.
+    os.move(fasta_temp, fasta)
+
+
+
 # Parse CSV file with genome IDs grouped by taxonomic groups of interest.
 genome_ids_by_taxon = \
 get_genome_ids_by_taxon(snakemake.input.genome_id_taxon_csv)
@@ -60,6 +85,11 @@ open(snakemake.output.top_hit_fasta, 'a') as o2:
                 genome_ids_already_used.append(genome_id)
 
 
+# Insert query names in FASTA headers.
+insert_query_name_from_filename(snakemake.output.fasta)
+insert_query_name_from_filename(snakemake.output.top_hit_fasta)
+
+
 # Write taxon-specific full-length top-hit FASTA files.
 for taxon in genome_ids_by_taxon.keys():
     # Define taxon-specific output file path.
@@ -77,6 +107,10 @@ for taxon in genome_ids_by_taxon.keys():
                 taxon_specific_seqs.append(seq)
 
         SeqIO.write(taxon_specific_seqs, o, 'fasta')
+
+    # Insert query names in FASTA headers.
+    insert_query_name_from_filename(taxon_out_fasta)
+
 
 
 
