@@ -19,10 +19,10 @@ def insert_query_name_from_filename(fasta):
     fasta_temp = fasta + '_TEMP'
 
     # Iterate through sequences and make a list of modified records.
-    newseqs = []
+    new_seqs = []
     for seq in SeqIO.parse(fasta, 'fasta'):
         seq.id = seq.id + '__' + query_name
-        newseqs.append(seq)
+        new_seqs.append(seq)
 
     # Write seq records with new IDs to temp file.
     with open(fasta_temp, 'w') as o:
