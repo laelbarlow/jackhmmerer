@@ -1,0 +1,11 @@
+name: retrieve_full_length_seqs
+channels:
+    - anaconda
+    - bioconda
+    - conda-forge
+dependencies:
+    - python=3.8
+    - biopython=1.78
+    - hmmer=3.3.2
+
+

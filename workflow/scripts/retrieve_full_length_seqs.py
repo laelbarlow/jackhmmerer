@@ -5,7 +5,7 @@
 import os
 import subprocess
 from Bio import SeqIO
-from plot_num_hits_retrieved import get_genome_ids_by_taxon
+from get_genome_ids_by_taxon import get_genome_ids_by_taxon
 
 
 # Parse CSV file with genome IDs grouped by taxonomic groups of interest.

@@ -186,7 +186,7 @@ rule retrieve_full_length_seqs:
         'results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_top_hit_seqs.faa',
 
     conda:
-        'envs/jackhmmer.yaml'
+        'envs/retrieve_full_length_seqs.yaml'
 
     script:
         'scripts/retrieve_full_length_seqs.py'
