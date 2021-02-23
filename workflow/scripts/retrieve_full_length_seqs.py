@@ -21,8 +21,14 @@ def insert_query_name_from_filename(fasta):
     # Iterate through sequences and make a list of modified records.
     new_seqs = []
     for seq in SeqIO.parse(fasta, 'fasta'):
+        # Modify sequence ID.
         assert not seq.id.endswith('__' + query_name)
         seq.id = seq.id + '__' + query_name
+
+        # Modify sequence description.
+        seq.description = ''
+
+        # Add modified record to list.
         new_seqs.append(seq)
 
     # Write seq records with new IDs to temp file.
