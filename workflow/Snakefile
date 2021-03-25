@@ -64,8 +64,6 @@ rule help:
 
 # Include additional workflow rules from files in the rules subdirectory.
 
-include: "rules/final_results.smk"
-include: "rules/help.smk"
 include: "rules/concat_dbs.smk"
 include: "rules/jackhmmer.smk"
 include: "rules/convert_profiles_to_fasta.smk"

@@ -9,4 +9,5 @@ nohup.out
 pid_nohup.txt
 resources/.DS_Store
 logs
+*__pycache__
 
