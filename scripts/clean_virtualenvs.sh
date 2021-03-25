@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script for removing all files associated with typhaon virtual environments.
+# Script for removing all files associated with associated virtual environments.
 # This is so that they can be re-generated when the code is modified.
 
 # Define a function to confirm with the user before deleting files.

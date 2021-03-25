@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script for removing all files associated with amoebae_example_workflow.
+# Script for removing all files associated with the workflow.
 
 # Define a function to confirm with the user before deleting files.
 confirm() {
