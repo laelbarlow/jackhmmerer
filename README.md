@@ -13,6 +13,10 @@ software package](http://hmmer.org/).
 
 ## Installation 
 
+- Ensure you have Python3 and the Conda package and environment manager
+  pre-installed on your system. Ideally, this should be run on a
+  high-performance computing cluster.
+
 - Clone the code repository from github to your computer by running the
   following shell command in your terminal:
   ```
