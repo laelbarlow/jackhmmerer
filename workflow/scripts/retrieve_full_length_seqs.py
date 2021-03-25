@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Original source: https://github.com/laelbarlow/jackhmmerer
+# Licence notice: MIT License, copyright (c) 2021 Lael D. Barlow
+
 """Script for fetching full-length jackhmmer hit sequences from a very large FASTA file.
 """
 

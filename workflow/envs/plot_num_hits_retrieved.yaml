@@ -1,4 +1,3 @@
-name: plot_num_hits_retrieved
 channels:
     - anaconda
     - conda-forge

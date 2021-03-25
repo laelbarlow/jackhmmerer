@@ -19,6 +19,6 @@ confirm rm -rf ~/env_jackhmmerer_workflow_setup_py
 # Remove conda environment.
 confirm conda env remove -n conda_env_jackhmmerer_snakemake_workflow
 
-# Remove typhaon directory.
+# Remove jackhmmerer directory.
 #confirm rm -rf ../jackhmmerer
 

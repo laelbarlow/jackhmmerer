@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Original source: https://github.com/laelbarlow/jackhmmerer
+# Licence notice: MIT License, copyright (c) 2021 Lael D. Barlow
+
 """Script for quantifying jackhmmer search results, and comparing between
 searches with different parameters (E-value thresholds).
 """
