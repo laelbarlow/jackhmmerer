@@ -62,10 +62,12 @@ software package](http://hmmer.org/).
   make run
   ```
 
-- View results. The alignments in this directory may be of particular interest:
-  `results/convert_to_fasta`. **Important:** The output FASTA sequence files do
-  not contain full-length sequences, they are only the subsequences that
-  matched the query sequence.
+- View results. In particular:
+    - The alignments in this directory may be of interest:
+      `results/convert_to_fasta`. These are only the subsequences that matched
+      the query sequence.
+    - Also, full-length FASTA sequences for hits will be in this directory:
+      `results/retrieve_full_length_seqs`.
 
 
 ## License
