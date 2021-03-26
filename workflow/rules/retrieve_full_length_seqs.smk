@@ -15,9 +15,9 @@ rule retrieve_full_length_seqs:
 
     output:
         fasta = \
-        'results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_hit_seqs.faa',
+        'results/retrieve_full_length_seqs/{params}/{queryfasta}__hits.faa',
         top_hit_fasta = \
-        'results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_top_hit_seqs.faa',
+        'results/retrieve_full_length_seqs/{params}/{queryfasta}__top_hits.faa',
 
     conda:
         '../envs/retrieve_full_length_seqs.yaml'

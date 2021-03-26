@@ -8,7 +8,7 @@ rule plot_num_hits_retrieved:
     input:
         genome_id_taxon_csv = 'resources/genome_ids_by_taxon.csv',
         top_hit_fasta = \
-        expand('results/retrieve_full_length_seqs/{params}/{queryfasta}_full_length_top_hit_seqs.faa',\
+        expand('results/retrieve_full_length_seqs/{params}/{queryfasta}__top_hits.faa',\
             queryfasta = query_names, params=paramspace1.instance_patterns)
 
     output:
