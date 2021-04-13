@@ -1,0 +1,8 @@
+channels:
+    - conda-forge
+    - r
+dependencies:
+    - r-essentials
+    - r-base
+    - r-ggplot2
+    - r-r.devices
